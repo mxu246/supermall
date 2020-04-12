@@ -5,7 +5,12 @@ const Home = () => import("views/home/Home")
 const Category = () => import("views/category/Category")
 const Cart = () => import("views/cart/Cart")
 const Profile = () => import("views/profile/Profile")
-
+//
+const originalPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push(location, onResolve, onReject) {
+  if (onResolve || onReject) return originalPush.call(this, location, onResolve, onReject)
+  return originalPush.call(this, location).catch(err => err)
+}
 //1.安装插件
 Vue.use(VueRouter);
 
